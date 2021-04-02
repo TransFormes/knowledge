@@ -8,19 +8,22 @@ module.exports = {
     },
     themeConfig: {
         lastUpdated: '最后更新时间',
-        // sidebar: 'auto',
+        sidebar: 'auto',
         editLinks: true,
         // 编辑链接label
         editLinkText: '编辑此页',
         nav: [
             {text: 'css', link: '/css/'},
             {text: 'javascript', link: '/js/'},
-            {text: 'vue', link: '/vue/'},
+            {text: '框架', items: [
+                { text: 'vue', link: '/vue/'}, 
+                { text: 'webpack', link: '/webpack/'},
+                { text: 'flutter', link: '/flutter/'}
+              ]},
         ],
-        sidebar: [
-            "/css/",
-            
-        ]
+        // sidebar: [
+        //     "/css/",
+        // ]
     },
     
 }

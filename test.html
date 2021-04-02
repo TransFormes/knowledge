@@ -32,6 +32,40 @@
         <span class="d">2</span>
     </div>
     <script>
+        // const isObject = (obj) => Object.prototype.toString.call(obj) === '[object Object]'
+        // function deep(obj){
+        //     const res = {};
+        //     Object.keys(obj).forEach(item => {
+        //         if(isObject(obj[item])){
+        //             res[item] = deep(obj[item])
+        //         } else {
+        //             res[item] = obj[item];
+        //         }
+        //     })
+        //     return res;
+        // }
+        // const data = {
+        //     name: '1222',
+        //     age: '22',
+        //     per: {
+        //         name: 2
+        //     }
+        // }
+        // console.log(deep(data));
+        function flat(arr){
+            let newArr = [];
+            arr.forEach(item => {
+                if(Array.isArray(item)){
+                    newArr = [...newArr, ...flat(item)]
+                } else {
+                    console.log(item);
+                    newArr = newArr.push(item)
+                }
+            })
+            return newArr;
+        }
+        const c = [1,2, [3, 4]]
+        console.log(flat(c));
     </script>
 </body>
 </html>

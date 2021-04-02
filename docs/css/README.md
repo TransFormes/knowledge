@@ -61,6 +61,21 @@ border-box不包含margin
  - 视口大小，100vw相当于整个屏幕的宽度
  - 100vh相当于整个屏幕的高度
 
+## 动画
+ - animation
+ - .example{animation: 动画名称 执行时长 执行次数 是否延迟执行}
+```css
+@keyframes 动画名称 {}
+```
+
 ## 外边距塌陷
  - 竖直方向margin 取最大值
  - 水平方向相加
+
+## iPod iPad适配
+```css
+<meta name="viewport" content="width=720, user-scalable=no, target-densitydpi=device-dpi">
+```
+   - target-densitydpi 表示目标设备的密度等级 作用决定css中的1px代表多少物理像素
+     1. 值可以是high-dpi、nedium-dpi、low-dpi、device-dpi
+     2. chrome 上面会有警告错误
