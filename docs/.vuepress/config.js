@@ -14,7 +14,8 @@ module.exports = {
         editLinkText: '编辑此页',
         nav: [
             {text: 'css', link: '/css/'},
-            {text: 'javascript', link: '/js/'},
+            {text: 'js手写题', link: '/js/'},
+            {text: '浏览器', link: '/browser/'},
             {text: '框架', items: [
                 { text: 'vue', link: '/vue/'}, 
                 { text: 'webpack', link: '/webpack/'},

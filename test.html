@@ -75,23 +75,190 @@
         // const newFn = c.bind(data)
         // const a = new newFn();
         // console.log(a);
-        const name = '2';
-        Function.prototype.myCall = function(context, ...arg){
-            context = context??window
-            context.fn = this;
-            const args = Array.from(arg).splice(1)
-            const res = context.fn(...args)
-            delete context.fn;
-            return res;
+        // const name = '2';
+        // Function.prototype.myCall = function(context, ...arg){
+        //     context = context??window
+        //     context.fn = this;
+        //     const args = Array.from(arg).splice(1)
+        //     const res = context.fn(...args)
+        //     delete context.fn;
+        //     return res;
+        // }
+        // const data = {
+        //     name: '王五'
+        // }
+        // function a(){
+        //     console.log(this.name);
+        // }
+        // a.myCall(data)
+        // // newFn();
+        
+
+        // function create(){
+        //     const obj = {};
+        //     const arg = [].shift.call(arguments);
+        //     obj.__proto__ = arg.prototype;
+        //     const res = arg.apply(obj, arguments);
+        //     return res instanceof Object ? res : obj
+        // }
+
+        // class a extends c{}
+
+        // function Example(){
+        //     this.color = 'red';
+        // }
+
+        // const a = create(Example)
+        // console.log(a);
+        class EventBus{
+            constructor(){
+                this.cache = {}
+            }
+            on(name, fn){
+                this.cache[name] = this.cache[name] || [];
+                this.cache[name].push(fn);
+            }
+            off(name){
+                if(this.cache[name]){
+                    delete this.cache[name];
+                }
+            }
+            emit(name, arg){
+                if(this.cache[name]){
+                    this.cache[name].forEach(cb => cb(arg));
+                }
+            }
         }
-        const data = {
-            name: '王五'
+
+    // const c = new EventBus();
+    // c.on('name', (args) => {
+    //     console.log(args);
+    // })
+    // c.emit('name', 2)
+
+    // console.log(/\d$/.exec('dadas12322'))
+    function curry(fn){
+        const newFn = (...args) => {
+            if(args.length === fn.length) return fn(...args);
+            return (...arg) => newFn(...args, ...arg)
         }
-        function a(){
-            console.log(this.name);
+        return newFn;
+    }
+    function add(){
+        const arg = Array.from(arguments)
+        let all = 0;
+        return all += arg.map(item => item);
+    }
+    let addCurry = curry(add)
+    // console.log(addCurry(1)(2)(3)(4));
+
+    // function add(){
+    //     const arg = [].slice.call(arguments)
+    //     var _adder = function() {
+    //         arg.push(...arguments);
+    //         return _adder;
+    //     };
+    //     _adder.toString = function () {
+    //         return arg.reduce(function (a, b) {
+    //             return a + b;
+    //         });
+    //     }
+    //     return _adder
+    // }
+    // console.log(add(1, 2, 3, 4, 5));
+
+    function request(){
+        const xml = new XMLHttpRequest();
+        xml.open('get', 'https://www.baidu.com')
+        xml.onreadystatechange = function(x){
+            console.log(xml.readyState);
+            if(xml.readyState !== 4) return;
+            if(xml.readyState === 4 && xml.status === 200){
+                // console.log(xml.responseText);
+            }
         }
-        a.myCall(data)
-        // newFn();
+        xml.send();
+    }
+    const data = {
+        name: '2'
+    }
+    function add(){
+        return 2;
+    }
+    function call(context){
+        const ctx = context || window;
+        const arg = [].slice.call(ctx, 1);
+        ctx.fn = this;
+        const res = ctx.fn(...arg);
+        delete ctx.fn;
+        return res
+    }
+    function news(){
+        const obj = {};
+        const arg = [].shift.call(arguments);
+        obj.__proto__ = arg.prototype;
+        const res = arg.apply(obj, arguments);
+        return typeof res ==="object" ? res : obj;
+    }
+    function name(name, age){
+        this.name = name;
+        this.age = age;
+    }
+    const d = news(name, '2', '3')
+    // console.log(d);
+
+    function instanceOf(letf, right){
+        while(letf){
+            if(letf.__proto__ === right.prototype){
+                return true;
+            }
+            letf = letf.__proto__
+        }
+        return false;
+    }
+    // console.log(instanceOf(true, Boolean));
+    let a1 = {name: 1}
+    let a2 = {name: 2}
+    let a3 = Object.assign(a1, a2)
+    a2.name = 3;
+    // console.log(a3);
+
+    // const ca = {
+    //     name: undefined,
+    //     age: () => {},
+    //     data: NaN,
+    //     A: Symbol('2')
+    // }
+    // const ca1 = JSON.stringify(ca)
+    // ca.age = 1;
+    // console.log(ca1);
+
+    // const c = new Promise((resolve, reject) => {
+    //     resolve(33)
+    // })
+    // c.then(res => {
+    //     console.log(res);
+    //     throw('222');
+    // }).then(2).then(res =>{
+    //     console.log(res);
+    // }).catch(e => {
+    //     console.log(22,e);
+    // }).then(res => {
+    //     console.log(res, 'then1');
+    // }).catch(e => {
+    //     console.log(e,'catch');
+    // })
+    async function a(){
+        return 100;
+    }
+    async function b(){
+        await function(){
+            return 100;
+        }
+    }
+    console.log('a=',a());
+    console.log('b=',b());
+    // b();
 </script>
 </body>
 </html>
