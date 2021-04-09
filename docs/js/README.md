@@ -2,7 +2,7 @@
 
 ## 微任务、宏任务
    - 执行顺序 先执行宏任务开始 宏任务里面有微任务，执行所有微任务、在开始一下轮
-   - 微任务包含 Promise MutationObserver Promise.then
+   - 微任务包含 Promise MutationObserver Promise.then queueMicrotask
    - 宏任务 script setTimeOut setInterval
 ```js
     async function start1(){
@@ -253,3 +253,28 @@ function myCall(context, ...arg){
  - Sysbol 转换成 undefined
  - NaN Infinity 转化成 null
  - 会过滤值为undefined的键值对
+
+## async await 
+ - async函数 async是asyncFunction构造函数的实例 允许使用await关键字
+ - async函数 会返回一个promise
+   - 如果async函数返回值不像promise 将会被隐式的包装在一个promise里面 
+   ```js
+    async function test(){
+        return 1;
+    }
+    等价于
+    function test(){
+        return Promise.resolve(1)
+    }
+   ```   
+ - async 函数从第一行代码到第一个await 表达式是同步运行
+ - async 函数体内有一个await表达式 async函数就一定会异步执行
+  ```js
+    async function test(){
+        await 1
+    }
+    等价于
+    async function test(){
+        return Promise.resolve(1).then(() => undefined)
+    }
+  ``` 

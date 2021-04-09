@@ -248,17 +248,90 @@
     // }).catch(e => {
     //     console.log(e,'catch');
     // })
-    async function a(){
-        return 100;
-    }
-    async function b(){
-        await function(){
-            return 100;
-        }
-    }
-    console.log('a=',a());
-    console.log('b=',b());
+    // async function a(){
+    //     return 100;
+    // }
+    // async function b(){
+    //     await function(){
+    //         return 100;
+    //     }
+    // }
+    // console.log('a=',a());
+    // console.log('b=',b());
     // b();
+    Promise.resolve().then(res => {
+        console.log(1);
+        return Promise.resolve(4)
+    }).then(res => {
+        console.log(res, 2);
+    })
+   
+    Promise.resolve().then(() => {
+        console.log(3);
+    }).then(() => {
+        console.log(4);
+    }).then(() => {
+        console.log(5);
+    }).then(() => {
+        console.log(6);
+    }).then(() => {
+        console.log(7);
+    })
+    
+    
+    function test1(){
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                throw('error');
+            }, 2000)
+        })
+    }
+    function test2(){
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("test2");
+            }, 1000)
+        })
+    }
+    // queueMicrotask
+
+    // async function start(){
+    //     const test = await test1();
+    //     console.log(test);
+    //     const a = await test2();
+    //     console.log(a);
+    // }
+    // console.timeLog();;
+    // start();
+    // console.timeEnd();
+    // new Promise((resolve, reject) => {
+    //     reject(2)
+    // }).then(res => {
+    //     console.log(res);
+    // }).then(2).then(res => {
+    //     console.log(3);
+    // }).then(4).then(res => {
+    //     console.log(5);
+    // }).catch(e => {
+    //     console.log(e);
+    // }).catch(e => {
+    //     console.log(e);
+    // }).then(res => {
+    //     console.log(6);
+    // }).then(res => {
+    //     console.log(7);
+    // })
+    // console.log(1);
+    // queueMicrotask(() => {
+    //     console.log(3);
+    // })
+    // Promise.resolve(2).then(() => {
+    //     console.log(6);
+    // })
+    // setTimeout(() => {
+    //     console.log(4);
+    // }, 0)
+    // console.log(2);
 </script>
 </body>
 </html>

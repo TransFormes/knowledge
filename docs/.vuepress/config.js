@@ -19,7 +19,8 @@ module.exports = {
             {text: '框架', items: [
                 { text: 'vue', link: '/vue/'}, 
                 { text: 'webpack', link: '/webpack/'},
-                { text: 'flutter', link: '/flutter/'}
+                { text: 'flutter', link: '/flutter/'},
+                { text: 'nuxt', link: '/nuxt/'}
               ]},
         ],
         // sidebar: [
