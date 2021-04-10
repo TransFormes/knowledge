@@ -37,6 +37,41 @@
     // 执行顺序 => 3 1 4 5 8 10 11 2 7 12
 ```
 
+### Promise链式调用
+ - 链式调用中，只有前一个then的回调执行完毕后，跟着的then的回调才会被加入至微任务
+ ```js
+    Promise.resolve()
+    .then(() => {
+        console.log("then1");
+        Promise.resolve().then(() => {
+            console.log("then1-1");
+        });
+        Promise.resolve().then(() => {
+            console.log("then1-2");
+        });
+    })
+    .then(() => {
+        console.log("then2");
+    });
+ ```
+ - 同一个Promise的每个链式调用的开端会依次进入微任务
+   ```js
+      const p = Promise.resolve()
+      p.then(() => {
+        console.log("then1");
+        Promise.resolve().then(() => {
+            console.log("then1-1");
+        });
+      }).then(() => {
+        console.log("then1-2");
+      });
+
+      p.then(() => {
+        console.log("then2");
+      }); 
+   ``` 
+ - 当 Promise resolve了一个Promise时 会产生一个NewPromiseResolveThenableJob 也是一个微任务 并且jobs还会调用一次then函数来resolve Promise 又产生了一次微任务 所以会触发两次微任务
+
 ## 深浅拷贝
 ```js
 浅拷贝
@@ -93,6 +128,32 @@ function myCall(context, ...arg){
     const res = context.fn(...args)
     delete context.fn;
     return res;
+}
+
+apply 
+function myApply(context, ...arg){
+    context = context ?? window;
+    context.fn = this;
+    let res;
+    if(arg.length){
+        res = context.fn(...arg)
+    } else {
+        res = context.fn();
+    }
+    delete context.fn;
+    return res;
+}
+
+bind
+function myBind(context){
+    const _this = this;
+    const arg = Array.from(arguments).splice(1);
+    return function F(){
+        if(_this instanceof F){
+            return new _this(...arg, ...arguments)
+        } 
+        return _this.apply(context, [...arg, ...arguments])
+    }
 }
 ```
 
@@ -177,7 +238,21 @@ function myCall(context, ...arg){
     child.prototype.constructor = child;
 
 ```
+### create继承
+```js
+    function Parent(){}
+    Parent.prototype.getName =function(){
+        return '22';
+    }
+    function Child(){}
+    Child.prototype = Object.create(Parent.prototype);
+    const child = new Child();
+    child.getName();
+```
 
+### 原型链继承和class继承的区别
+ - 类继承 是使用构造函数初始化对象的属性 通过调用父类的构造函数来继承 使用extents super() 关键字
+ - 原型链继承 就是类式继承中继承父类的peototype方法
 ## 数组去重
 ```js
     function unique(arr){
@@ -278,3 +353,21 @@ function myCall(context, ...arg){
         return Promise.resolve(1).then(() => undefined)
     }
   ``` 
+  
+## 对象赋值
+```js
+    const data = {
+        age: 2
+    }
+    function setAge(myData){
+        myData.age = 3;
+        myData = {};
+        return myData;
+    }
+
+    const newData = setAge(data)
+    console.log(newData)  // {}
+    console.log(data)  // {age: 3}
+```
+ - 对象是引用类型，都是值的传递，一旦值改变了 大家都改变了
+ - 但是如果函数把对象重新赋值了，除非自己重新赋值， 不然都不可能成功
