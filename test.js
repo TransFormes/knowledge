@@ -132,13 +132,12 @@ function basehandleClick(name){
 }
 
 const handleClick = async(name) => {
-    // temp.push(name);
-    const res = await p.then(basehandleClick(name));
-    console.log(res);
-    // if(res){
-    //     const first = temp.shift();
-    //     console.log(first);
-    // }
+    temp.push(name);
+    const res = await basehandleClick(name);
+    if(res){
+        const first = temp.shift();
+        console.log(first);
+    }
 }
 
 function http(name){
@@ -182,3 +181,47 @@ function chunk(arr, size){
 console.log(chunk(['a', 'b', 'c', 'd'], 2))
 console.log(chunk(['a', 'b', 'c', 'd'], 3))
 console.log(chunk(['a', 'b', 'c', 'd'], 5))
+
+const isObj = (val) => Object.prototype.toString.call(val) === '[object Object]'
+    function deep(obj){
+        if(!isObj(obj)){
+            throw 'obj 不是对象'
+        }
+        const newObj = {};
+        Object.keys(obj).forEach(key => {
+            if(isObj(obj[key])){
+                newObj[key] = deep(obj[key])
+            } else {
+                newObj[key] = obj[key]
+            }
+        })
+        return newObj
+    }
+const data = {
+    name: '2',
+    age: {
+        test: 2,
+        a: undefined,
+        c: null,
+        d: NaN
+    }
+}
+console.log(deep(data));
+
+
+const unique = (arr) => [...new Set(arr)]
+
+const arr = [1, 2, 3, 1, 2, 3]
+
+console.log(unique(arr));
+
+
+function curry(fn){
+    // const arg = arguments;
+    return (...args) => {
+        // if(){
+
+        // }
+    }
+}
+

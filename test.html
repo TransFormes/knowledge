@@ -32,21 +32,35 @@
         <span class="d">2</span>
     </div>
     <script >
-       let length = 10;
-       console.log(length, 222);
-        function fn() {
-            console.log(this.length);
-        }
-        let obj = {
-            length: 5,
-            method(fn) {
-                // 两次调用各输出什么
-                fn();
-                console.log(arguments);
-                arguments[0](0)
+        function* a(){
+            try{
+                yield
+            } catch(e){
+                console.log(e);
             }
         }
-        obj.method(fn, 1);
+        const c = a();
+        c.next();
+        try{
+            c.throw()
+        }catch(e){
+            console.log(333);
+        }
+    //    let length = 10;
+    //    console.log(length, 222);
+    //     function fn() {
+    //         console.log(this.length);
+    //     }
+    //     let obj = {
+    //         length: 5,
+    //         method(fn) {
+    //             // 两次调用各输出什么
+    //             fn();
+    //             console.log(arguments);
+    //             arguments[0](0)
+    //         }
+    //     }
+    //     obj.method(fn, 1);
         // const box = document.querySelector("box")
         // box.addEventListener('click', addClick)
         // function addClick(fn, immediate){
