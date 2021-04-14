@@ -206,22 +206,166 @@ const data = {
         d: NaN
     }
 }
-console.log(deep(data));
+// console.log(deep(data));
 
 
 const unique = (arr) => [...new Set(arr)]
 
 const arr = [1, 2, 3, 1, 2, 3]
 
-console.log(unique(arr));
+// console.log(unique(arr));
 
 
-function curry(fn){
-    // const arg = arguments;
-    return (...args) => {
-        // if(){
+// function base(a, b, c, d){
+//     return a+b+c+d
+// }
 
-        // }
+// function cruying(fn, ...args){
+//     return fn.length > args.length ? (...arg) => cruying(fn, ...args, ...arg) : fn(...args)
+// }
+
+// console.log(cruying(base)(1)(2)(3, 4));
+
+// const p = Promise.resolve();
+
+// function base(value){
+//     return new Promise((resolve) => {
+//         const time = (Math.random() * 5 + 1) * 500;
+//         setTimeout(resolve, time, value)
+//     })
+// }
+
+// async function execute(promise){
+//     return p = p.then(() => promise)
+// }
+
+// async function clickMe(value){
+//     const res = await execute(base(value))
+//     console.log(res)
+// }
+// clickMe('A');
+// clickMe('B');
+// clickMe('C');
+// clickMe('A');
+// clickMe('C');
+// clickMe('B');
+
+const a = {
+    a_y: {
+      a_z: {
+        y_x: 6
+      },
+      b_c: 1
     }
 }
+
+function trans(base){
+    const stak = [base];
+    while(stak.length){
+        const current = stak.pop();
+        for(let i in current){
+            if(typeof current[i] === 'object' && typeof current[i] !== null){
+                stak.push(current[i])
+            }
+            const newKey = i.replace(/_/g, '')
+            current[newKey]  = current[i]
+            delete current[i]
+        }
+    }
+    return base
+}
+
+const res = trans(a);
+console.log(res);
+
+function Parent(){}
+
+Parent.prototype.say = function(){
+    console.log('parent');
+}
+
+Parent.name = function(){
+    console.log('parent name');
+}
+
+function Child(){}
+Child.prototype = Object.create(Parent.prototype);
+const c = new Child();
+c.say()
+
+
+function myAll(arr){
+    if(!Array.isArray(arr)) return;
+    const res = [];
+    let index = 0;
+    return new Promise((resolve, reject) => {
+        arr.forEach(item => {
+            Promise.resolve(item).then((val) => {
+                res[index] = val;
+                index++;
+                if(index === arr.length){
+                    resolve(res)
+                }
+            }, (e) => {
+                reject(e)
+            })
+        })
+    })
+}
+
+Promise.myAll = myAll;
+
+function test(value){
+    return new Promise(resolve => {
+        const time = Math.random() * 1000;
+        setTimeout(resolve, time, value)
+    })
+}
+
+Promise.myAll([test(1), test(2)]).then(res => {
+    console.log(res);
+})
+
+//基本类型和引用类型的地址存在栈上  引用类型存在堆上
+//引用类型的大小不确定 栈是程序在运行编译的时候，系统以及分配好了的， 堆的大小是动态的
+
+
+const weakMap = new WeakMap();
+function deepClone(data){
+    if(!data) return;
+    if(weakMap.has(data)) return data;
+    switch(Object.prototype.toString.call(data)){
+        case '[object String]':
+        case '[object Number]':
+        case '[object Boolean]':
+        case '[object RegExp]':
+        case '[object Date]':
+        case '[object Error]':
+        return new data.constructor(data.valueOf())
+    }
+    const res = data instanceof Array ? [] : {};
+    weakMap.set(data, res)
+    for(let i in data){
+        if(data.hasOwnProperty(i)){
+            res[i] = deepClone(data[i])
+        }
+    }
+}
+
+const obj = {
+    a: [1, 2, 3],
+    b: {
+      c: 1
+    },
+    c: 1,
+    date: new Date(),
+    regExp: new RegExp(/a/),
+    fn: () => { console.log('fn') },
+    symbol: Symbol()
+}
+const trans = deepClone(obj);
+console.log(trans);
+
+
+
 
