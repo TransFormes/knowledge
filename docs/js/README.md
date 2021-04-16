@@ -180,7 +180,7 @@ function myBind(context){
 ```js
     function myNew(){
         const obj = {};
-        const arg = [].shift.call(arguments)    
+        const arg = [].shift.call(arguments)
         obj.__proto__ = arg.prototype;
         const res = arg.apply(obj, arguments);
         return res instanceof Object ? res : obj;
@@ -250,9 +250,10 @@ function myBind(context){
     child.getName();
 ```
 
-### 原型链继承和class继承的区别
- - 类继承 是使用构造函数初始化对象的属性 通过调用父类的构造函数来继承 使用extents super() 关键字
- - 原型链继承 就是类式继承中继承父类的peototype方法
+### ES5和ES6继承的区别
+ - ES5的继承先创建子类的实例，然后将父类的方法添加到this上面（Parent.call(this)）
+ - ES6的继承是先将父类实例对象的属性和方法加到this上面（所以必须先调用super方法）,然后在意子类的构造函数修改this
+
 ## 数组去重
 ```js
     function unique(arr){
@@ -372,7 +373,7 @@ function myBind(context){
  - 对象是引用类型，都是值的传递，一旦值改变了 大家都改变了
  - 但是如果函数把对象重新赋值了，除非自己重新赋值， 不然都不可能成功
 
-## IIFE自执行函数（函数表达式、与函数声明不一样） 
+## IIFE自执行函数（函数表达式、与函数声明不一样）   
 ```js
     ;(function a(){
         a = 10;
@@ -384,4 +385,10 @@ function myBind(context){
  - 严格莫斯下会报错 不是严格模式会忽略对常量的赋值
 
 
-## generate和yield
+## generate与async的区别
+ - generate 是ES2015提出的 函数需要增加一个*符号 配合yield使用
+ - generate函数会返回一个遍历器，可以用for of循环出每个状态
+ - generate并不会立即执行，需要手动调用next获取下一个状态
+ - async函数 是ES2017提成的，需要增加async 配合await使用
+ - async函数会返回一个promise 就算是普通值也会被promise.resolve()包裹
+

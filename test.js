@@ -226,30 +226,6 @@ const arr = [1, 2, 3, 1, 2, 3]
 
 // console.log(cruying(base)(1)(2)(3, 4));
 
-// const p = Promise.resolve();
-
-// function base(value){
-//     return new Promise((resolve) => {
-//         const time = (Math.random() * 5 + 1) * 500;
-//         setTimeout(resolve, time, value)
-//     })
-// }
-
-// async function execute(promise){
-//     return p = p.then(() => promise)
-// }
-
-// async function clickMe(value){
-//     const res = await execute(base(value))
-//     console.log(res)
-// }
-// clickMe('A');
-// clickMe('B');
-// clickMe('C');
-// clickMe('A');
-// clickMe('C');
-// clickMe('B');
-
 const a = {
     a_y: {
       a_z: {
@@ -350,6 +326,7 @@ function deepClone(data){
             res[i] = deepClone(data[i])
         }
     }
+    return res;
 }
 
 const obj = {
@@ -367,5 +344,141 @@ const trans = deepClone(obj);
 console.log(trans);
 
 
+function test(undefined){
+    console.log(undefined);
+}
+test()
 
 
+//箭头函数没有this 没有argumens 不能new 参数不能重名 没有原型 箭头函数中的this永远不会改变
+
+class Queue{
+     p = Promise.resolve();
+
+     next(pro){
+         this.p = this.p.then(() => pro);
+         return this.p;
+     }
+}
+
+function https(x){
+    const time = (Math.random() + 1) * 500;
+    return new Promise((resolve) => {
+        setTimeout(resolve, time, x)
+    })
+}
+
+const myThem = new Queue();
+
+async function handler(x){
+    const res = await myThem.next(https(x));
+    console.log(res);
+}
+
+handler("A");
+handler("B");
+handler("C");
+handler("D");
+
+
+
+p = Promise.resolve();
+function next(pro){
+    p = p.then(() => pro);
+    return p;
+}
+
+function https(x){
+    const time = (Math.random() + 1) * 500;
+    return new Promise((resolve) => {
+        setTimeout(resolve, time, x)
+    })
+}
+
+async function handler(x){
+    const res = await next(https(x));
+    console.log(res);
+}
+
+handler("A");
+handler("B");
+handler("C");
+handler("D");
+
+
+
+
+
+// let p = Promise.resolve();
+// function next(pro){
+//     p = p.then(() => pro);
+//     return p;
+// }
+
+// function https(x){
+//     const time = (Math.random() + 1) * 500;
+//     return new Promise((resolve) => {
+//         setTimeout(resolve, time, x)
+//     })
+// }
+
+// async function handler(x){
+//     const res = await next(https(x));
+//     console.log(res);
+// }
+// handler('A');
+// handler('B');
+// handler('C');
+// handler('A');   
+
+var val = 0
+
+Object.defineProperty(window, "a", {
+    get(){
+        return val++;
+    }
+})
+
+// console.log(a);
+// console.log(a);
+// console.log(a);
+if(a == 1 && a == 2 && a == 3){
+    console.log('success');
+}
+
+{
+function a() {
+    console.log(10);
+}
+console.log(a);
+a = 10;
+a = 210;
+a = 220;
+console.log(a);
+function a() {
+    console.log(20);
+}
+console.log(a);
+a = 30;
+console.log(a);
+}
+
+class Ads{
+    #name;
+    constructor(name){
+        this.name = name;
+    }
+    say(){
+        this.#name = 2;
+        console.log(this.#name);
+    }
+}
+
+class Bds extends Ads{
+    say(){
+        console.log(this.name);
+    }
+}
+
+const c = new Bds('child')
+c.say()
