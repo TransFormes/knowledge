@@ -51,6 +51,12 @@ border-box不包含margin
 ## Flex: 1
  - 铺满弹性容器中可用的空间
  - 是flex-grow、flex-shrink、flex-basis的缩写
+   - flex-grow 定义项目放大比例
+   - flex-shrink 定义项目缩小比例，当空间不足时，会缩小
+   - flex-basis 定义项目在分配多余空间之前，项目占据主轴的大小
+   - flex计算规则
+     - 当container比内容大时，超出的部分会按照子元素的占比等比分配
+     - 当container比内容小，会按照缩小比例等比缩小 缩小后自身大小 = 自身大小 - 自身大小 * 缩小比例 * 超出大小 / (所以子元素大小 * 缩放大小)
 
 ## rem em px
  - rem是指相对根元素的字体大小单位(HTML)
