@@ -1,47 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      .item00 {
-       display: flex;
-       width:300px;
-       height: 100px;
-     }
-   
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .item00 {
+      display: flex;
+      width: 300px;
+      height: 100px;
+    }
+
     .item0 {
-       width:300px;
-       background-color: red;
-     }
-     .item1 {
-       flex: 1 1 100px;
-       background-color: green;
-     }
-     .item2 {
-       flex: 2 2 200px;
-       background-color: blue;
-     }
-       </style>
+      width: 300px;
+      background-color: red;
+    }
+
+    .item1 {
+      flex: 1 1 100px;
+      background-color: green;
+    }
+
+    .item2 {
+      flex: 2 2 200px;
+      background-color: blue;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="item00">
+  <div class="container">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      width: 600px;
+      height: 300px;
+      display: flex;
+    }
+
+    .left {
+      /* flex: 1 2 500px; */
+      background: red;
+      height: 300px;
+      width: 100px;
+    }
+
+    .right {
+      /* flex: 2 1 400px; */
+      background: blue;
+      width: 100px;
+      height: 300px;
+      margin-left: auto;
+    }
+  </style>
+  <!-- <div class="item00">
     <div class="item0">0</div>
     <div class="item1">1</div>
     <div class="item2">2</div>
-</div>
-    <script>
-      function Parent(){}
-      Parent.prototype.say = function(){
-        console.log('parent');
-      }
-      function Child(){}
-      Child.prototype = Object.create(Parent.prototype)
-      const child = new Child();
-      console.log(child);
-      child.say()
-    </script>
+</div> -->
+  <script>
+
+    function multiRequest(urls, maxNum = 3) {
+      return new Promise((resolve) => {
+        let counter = 0;
+        let len = urls.length;
+        const result = [];
+        const start = async() => {
+          const pop = urls.shift();
+          if (pop) {
+            const res = await Promise.resolve(pop);
+            if (counter === len - 1) {
+              result.push(res);
+              resolve(result);
+            } else {
+              counter++;
+              result.push(res);
+              start();
+            }
+          }
+        }
+
+        while (maxNum > 0) {
+          start();
+          maxNum--;
+        }
+      })
+
+    }
+
+    const url = [
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+    ]
+    multiRequest(url).then(res => {
+      console.log(res);
+    })
+      // function Parent(){}
+      // Parent.prototype.say = function(){
+      //   console.log('parent');
+      // }
+      // function Child(){}
+      // Child.prototype = Object.create(Parent.prototype)
+      // const child = new Child();
+      // console.log(child);
+      // child.say()
+  </script>
 </body>
+
 </html>

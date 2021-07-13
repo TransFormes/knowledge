@@ -46,6 +46,16 @@ sidebar: auto
  - v-show 切换的display属性
  - v-html 是设置innerHTML为html的值
 
+## nextTick
+ - promise => MutationObserve => setTimeout
+ - 相当于把多个dom更新放到一个地方一次性更新
+  ```js
+  <div>{{number}}</div>
+  for(let i = 0; i < 1000; i++) {
+      this.number++;
+  }
+  ```
+
 ## vue 组件加载顺序
  - 父组件beforeCreate => 父组件 created => 父组件 beforeMounted => 子组件 => beforeCreate => => 子组件 created => 子组件 beforeMounted => 子组件 mounted => 父组件 mounted
  - 多个子组件顺序 子组件 => beforeCreate => => 子组件 created => 子组件 beforeMounted => 子组件 beforeCreate => => 子组件 created => 子组件 beforeMounted => mounted => mounted 按照组件组件顺序加载和组件复杂度
@@ -68,7 +78,6 @@ sidebar: auto
 
 ## vue 有了数据劫持为什么还要DOM diff
  - vue的响应式系统通过依赖收集可以直接知道哪里在变化。但是绑定需要watcher,如果颗粒度很细就会有很多watcher,很大的开销。所以vue采用的是中等粒度。组件级别监听，然后系统知道哪个组件变化对该组件进行diff
-
 
 # VUE3.X
 

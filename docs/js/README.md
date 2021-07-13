@@ -132,7 +132,7 @@ function myCall(context, ...arg){
 
 apply 
 function myApply(context, ...arg){
-    context = context ?? window;
+    context = context ?? window
     context.fn = this;
     let res;
     if(arg.length){

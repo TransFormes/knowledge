@@ -1,7 +1,21 @@
 
+```css
+
+ 1.移动端适配
+ 2.flex宽度计算问题
+   - 当前宽度超出 总 400 flex:1, flex: 3 => 100 : 300
+   - 当前宽度缩小 总 400 flex: 1 0 200px
+ 3. vw vh px rem em 
+ 4. animation: name 2s forwords
+   @keyforms name {}
+```
+
+
+```js
+
+isNaN() 和 Number.isNaN()
+Array.of() 和 Array.from()
 
 
 
-1. 函数B引用了函数A的变量 函数B就是闭包
-2. 解决了变量污染的问题 
-3. 因为函数B一直引用那个变量，导致那个变量没有被销毁 所以可以访问到
+```
